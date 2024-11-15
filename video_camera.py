@@ -11,9 +11,14 @@ pygame.display.set_caption("OpenCV camera stream on Pygame")
 vcap = cv2.VideoCapture(0)
 
 # get vcap property 
-width  = vcap.get(cv2.CAP_PROP_FRAME_WIDTH)   # float `width`
-height = vcap.get(cv2.CAP_PROP_FRAME_HEIGHT) 
-surface = pygame.display.set_mode([1280, 720])
+camera_width  = int(vcap.get(cv2.CAP_PROP_FRAME_WIDTH))   # float `width`
+camera_height = int(vcap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+# These are the dimensions of the window.
+window_width = int(camera_width * 1.2)
+window_height = int(camera_height * 1.2)
+
+surface = pygame.display.set_mode([window_width, window_height])
 
 #Gets fps of your camera
 fps = vcap.get(cv2.CAP_PROP_FPS)
@@ -52,7 +57,9 @@ while True:
         # The video uses BGR colors and PyGame needs RGB
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
-        frame = cv2.resize(frame, dsize=(720, 1280), interpolation=cv2.INTER_CUBIC)
+        frame = cv2.resize(frame,
+                           dsize=(window_height, window_width), 
+                           interpolation=cv2.INTER_CUBIC)
 
         # Assuming this is an RGB matrix of [width] × [height], we can
         #   send this image to the model.
