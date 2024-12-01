@@ -15,8 +15,8 @@ camera_width  = int(vcap.get(cv2.CAP_PROP_FRAME_WIDTH))   # float `width`
 camera_height = int(vcap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 # These are the dimensions of the window.
-window_width = int(camera_width * 1.2)
-window_height = int(camera_height * 1.2)
+window_width = int(camera_width * 0.45)
+window_height = int(camera_height * 0.45)
 
 surface = pygame.display.set_mode([window_width, window_height])
 

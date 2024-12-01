@@ -2,3 +2,7 @@
 output
 runs
 face_detection
+data
+preparation
+old
+.DS_Store
