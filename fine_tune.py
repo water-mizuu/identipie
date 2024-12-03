@@ -1,6 +1,5 @@
 # Load necessary libraries
 from ultralytics import YOLO
-import os
 import sys
 
 

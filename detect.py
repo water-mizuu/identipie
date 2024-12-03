@@ -20,67 +20,6 @@ TITLE_FONT = ('Arial', 20)
 SUBTITLE_FONT = ('Arial', 18)
 SUBTEXT_FONT = ('Arial', 16)
 
-# MACRO_NUTRIENTS
-#   Extracted from: https://developer.edamam.com/edamam-nutrition-api-demo
-DEFINITIONS = {
-  "bread": {
-    "name": "Bread",
-    "calories": 164,
-    "fat": 2.7,
-    "carbohydrates": 28.5,
-    "protein": 6.4
-  },
-  "pasta": {
-    "name": "Pasta",
-    "calories": 1113,
-    "fat": 4.5,
-    "carbohydrates": 224.1,
-    "protein": 39
-  },
-  "apple": {
-    "name": "Apple",
-    "calories": 126,
-    "fat": 0.4,
-    "carbohydrates": 33.4,
-    "protein": 0.6
-  },
-  "banana": {
-    "name": "Banana",
-    "calories": 112,
-    "fat": 0.4,
-    "carbohydrates": 28.7,
-    "protein": 1.4
-  },
-  "bellpepper": {
-    "name": "Bell Pepper",
-    "calories": 3,
-    "fat": 0.0,
-    "carbohydrates": 0.6,
-    "protein": 0.1
-  },
-  "broccoli": {
-    "name": "Broccoli",
-    "calories": 50,
-    "fat": 0.5,
-    "carbohydrates": 9.8,
-    "protein": 4.2
-  },
-  "chicken": {
-    "name": "Chicken",
-    "calories": 538,
-    "fat": 37.8,
-    "carbohydrates": 0,
-    "protein": 46.0
-  },
-  "fish": {
-    "name": "Fish",
-    "calories": 111,
-    "fat": 2.0,
-    "carbohydrates": 0,
-    "protein": 20.0
-  }
-}
-
 # Functions
 def update():
     global is_detection_running
@@ -95,10 +34,7 @@ def update():
     img = cv2.resize(img, (int(WINDOW_WIDTH * 0.8), int(WINDOW_HEIGHT * 0.7)))
 
     if is_detection_running:
-        results = model(img, stream=True)
-
-        for r in results:
-
+        for r in model(img, stream=True):
             # Actual list of detected objects
             boxes = r.boxes
             objects = [(classes[int(box.cls[0])], math.ceil((box.conf[0]*100))/100)
@@ -182,10 +118,10 @@ def capture_image():
         is_detection_running = False
 
         # TODO: Display Nutritional Data
-        info = DEFINITIONS[objects[0][0].lower()]
+        info = definitions[objects[0][0].lower()]
 
         text_container.config(text=f"{info['name']} Detected")
-        per_serving_label.config(text=f"Per serving...")
+        per_serving_label.config(text=f"Each serving includes:")
         
         calorie_label.config(text=f"Calories")
         calorie_container.config(text=f"{info['calories']}cal")
@@ -222,6 +158,10 @@ model = YOLO(model_path)
 # Define classes
 classes = ["Bread", "Pasta", "Rice", "Apple", "Banana", "BellPepper", "Broccoli", "Chicken", "Fish"]
 
+# Read the definitions from the json file
+with open('definitions.json') as f:
+    definitions = json.load(f)
+
 # Open the video capture with main camera and set resolution to 1920 and 1080
 cap = cv2.VideoCapture(0)
 cap.set(3, 1600)
@@ -242,7 +182,7 @@ appbar.grid(row=0, column=0, columnspan=6, padx=8, pady=8)
 text_container = ttk.Label(root, text="Capture Image", font=TITLE_FONT)
 text_container.grid(row=1, column=5, columnspan=1, padx=8, pady=8)
 
-per_serving_label = ttk.Label(root, text="Per serving...", font=SUBTITLE_FONT, anchor='w')
+per_serving_label = ttk.Label(root, text="Each serving includes:", font=SUBTITLE_FONT, anchor='w')
 per_serving_label.grid(row=2, column=5, columnspan=2, padx=8, pady=0, sticky='w')
 
 calorie_label = ttk.Label(root, text="Calories", font=SUBTITLE_FONT, anchor='w')
