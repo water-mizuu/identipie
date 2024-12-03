@@ -12,7 +12,7 @@ WINDOW_HEIGHT = 1024
 WINDOW_WIDTH = 1280
 
 #Threshold refers to the accepted level of confidence
-THRESHOLD = 0.2
+THRESHOLD = 0.5
 
 # Functions
 def update():
