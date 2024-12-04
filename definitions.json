@@ -13,6 +13,13 @@
     "carbohydrates": 224.1,
     "protein": 39
   },
+  "rice": {
+    "name": "Rice",
+    "calories": 702,
+    "fat": 1.1,
+    "carbohydrates": 154.6,
+    "protein": 12.9
+  },
   "apple": {
     "name": "Apple",
     "calories": 126,
